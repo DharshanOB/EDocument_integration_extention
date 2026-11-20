@@ -8,7 +8,7 @@ app_license = "mit"
 # Apps
 # ------------------
 
-# required_apps = []
+required_apps = ["edocument", "edocument_integration"]
 
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
@@ -52,7 +52,9 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+	"EDocument Integration Settings": "public/js/edocument_integration_settings.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_kanban_js = {"doctype" : "public/js/doctype_kanban.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -96,12 +98,13 @@ app_license = "mit"
 # ------------
 
 # before_install = "edocument_integration_extention.install.before_install"
-# after_install = "edocument_integration_extention.install.after_install"
+after_install = "edocument_integration_extention.setup.after_install"
+after_migrate = "edocument_integration_extention.setup.after_migrate"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "edocument_integration_extention.uninstall.before_uninstall"
+before_uninstall = "edocument_integration_extention.setup.before_uninstall"
 # after_uninstall = "edocument_integration_extention.uninstall.after_uninstall"
 
 # Integration Setup
@@ -204,9 +207,14 @@ app_license = "mit"
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "edocument_integration_extention.event.get_events"
-# }
+override_doctype_class = {
+	"EDocument Integration Settings": "edocument_integration_extention.overrides.edocument_integration_settings.CustomEDocumentIntegrationSettings",
+}
+
+override_whitelisted_methods = {
+	"edocument_integration.api.transmit_edocument": "edocument_integration_extention.api.transmit_edocument",
+	"edocument_integration.api.webhook": "edocument_integration_extention.api.webhook",
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
